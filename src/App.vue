@@ -3,7 +3,7 @@
     <div class="container">
       <Header></Header>
     </div>
-    <div class="container">
+    <div class="container" style="margin-top: 20px">
       <router-view></router-view>
     </div>
     <div class="container">
@@ -34,6 +34,18 @@
       }
     },
     mounted() {
+      this.axios.get("menu.json").then((response) => {
+                this.loading = false;
+                if (response.status == 200) {
+                    var menus = [];
+                    for (var key in response.data) {
+                        var menu = response.data[key];
+                        menu["id"] = key;
+                        menus.push(menu);
+                    }
+                        this.$store.commit("setMenuItems", menus);
+                }
+            })
     }
   }
 </script>

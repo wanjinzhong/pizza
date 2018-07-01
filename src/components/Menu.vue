@@ -4,7 +4,7 @@
               <tr>
                   <td style="width: 600px; vertical-align: top">
                       <h5 style="width: 100%; margin: 0 auto">菜单</h5>
-                      <Table  :data="getMenuItems" >
+                      <Table  :data="menuItems" v-loading="loading">
           <TableColumn type="expand">
               <template  slot-scope="props">
                   <Table :data="props.row.options">
@@ -54,37 +54,13 @@ import {Table, TableColumn, Button, InputNumber} from "element-ui";
         components: {Table, TableColumn, Button, InputNumber},
         data() {
             return {
-                getMenuItems: [
-                    {
-                        name: "榴莲pizza",
-                        description: "这是喜欢吃榴莲朋友的最佳选择",
-                        options: [
-                            {id: 1, size: 9, price: 38},
-                            {id: 2, size: 12, price: 48}
-                        ]
-                    },
-                    {
-                        name: "芝士pizza",
-                        description: "芝士杀手，浓浓的芝士丝，食欲瞬间爆棚",
-                        options: [
-                            {id: 3, size: 9, price: 38},
-                            {id: 4, size: 12, price: 48}
-                        ]
-                    },
-                    {
-                        name: "夏威夷pizza",
-                        description: "众多人士的默认选择",
-                        options: [
-                            {id: 5, size: 9, price: 36},
-                            {id: 6, size: 12, price: 46}
-                        ]
-                    }
-                ],
-                basket: []
+                basket: [],
+                loading: false
             }
         },
         methods: {
             add(id) {
+                console.log(id);
                 var exist = false;
                 for (var i in this.basket) {
                     if (id == this.basket[i].id) {
@@ -131,6 +107,9 @@ import {Table, TableColumn, Button, InputNumber} from "element-ui";
                     total += this.basket[i].amount * this.basket[i].price;
                 }
                 return total;
+            },
+            menuItems() {
+                return this.$store.getters.getMenuItems;
             }
         }
         }

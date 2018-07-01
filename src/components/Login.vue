@@ -11,7 +11,7 @@
             <FormItem label="密码" prop="password">
               <Input v-model="loginData.password" type="password"/>
             </FormItem>
-            <Button type="success" style="width: 100%" @click="onSubmit('loginForm')">登陆</Button>
+            <Button type="success" native-type="submit" style="width: 100%" @click.prevent="onSubmit('loginForm')">登陆</Button>
           </Form>
         </div>
       </div>
@@ -21,7 +21,6 @@
 
 <script>
   import {Form, FormItem, Button, Input} from "element-ui";
-  import axios from "axios"
   export default {
     name: "Login",
     components:{Form, FormItem, Button, Input},
@@ -48,7 +47,7 @@
         var self = this;
         this.$refs[loginForm].validate((valid) => {
           if (valid) {
-            axios.get('/users.json').then((response) => {
+            this.axios.get('/users.json').then((response) => {
               var data = response.data;
               var loginSuccess = false;
               var users = [];
@@ -68,6 +67,7 @@
                     type: "success",
                     message: "登陆成功"
                   });
+                  self.$store.commit("setCurrentUser", self.loginData.email);
                   self.$router.push("/");
               }
             })

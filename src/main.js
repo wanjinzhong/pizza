@@ -5,11 +5,13 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import {routes} from "./routers"
 import axios from "axios";
+import store from "./store/stores"
 
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 
 axios.defaults.baseURL="https://wd1347713459zgtrvt.wilddogio.com/";
+Vue.prototype.axios = axios;
 
 
 
@@ -30,18 +32,22 @@ const router = new VueRouter({
     // }
   }
 });
-// router.beforeEach((to, from, next) => {
-//   // if(store.getters.)
-//   if (to.path == '/login' || to.path == '/register') {
-//     next()
-//   } else {
-//     alert("您还没有登陆，请先登录");
-//     next("/login");
-//   }
-// });
+router.beforeEach(function(to, from, next){
+  // if(store.getters.)
+  if (to.path == '/login' || to.path == '/register' || store.getters.getIsLogin) {
+    next()
+  } else {
+    Vue.prototype.$alert("您还没有登陆，请先登录", "登录", {
+      callback: function(action){
+        next("/login");
+      }
+    });
+  }
+});
 
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 });

@@ -29,7 +29,7 @@
           <router-link :to="{name: 'aboutLink'}" class="nav-link">关于我们</router-link>
         </li>
       </ul>
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav ml-auto" v-if="!$store.getters.getIsLogin">
         <li>
           <router-link :to="{name: 'loginLink'}" class="nav-link">登陆</router-link>
         </li>
@@ -37,14 +37,29 @@
           <router-link :to="{name: 'registerLink'}" class="nav-link">注册</router-link>
         </li>
       </ul>
+      <ul class="navbar-nav ml-auto" v-else>
+        <li>{{$store.getters.getCurrentUser}}</li>
+        <li><Button size="mini" @click="logout">退出</Button></li>
+      </ul>
     </nav>
   </header>
 </template>
 
 <script>
+import {Button} from "element-ui";
   export default {
     name: "Header",
-
+    components: {Button},
+    methods: {
+      logout() {
+        this.$confirm("确定要退出登录吗？", "退出登录", {
+          type: "warning"
+        }).then(() => {
+          this.$store.commit("setCurrentUser", null);
+          this.$router.push("/login");
+        }).catch(()=>{})
+      }
+    }
   }
 </script>
 

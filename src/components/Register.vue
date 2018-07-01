@@ -24,7 +24,7 @@
 
 <script>
   import {Form, FormItem, Button, Input} from "element-ui"
-  import axios from "axios"
+  
     export default {
         name: "Regist",
       components:{Form, FormItem, Button, Input},
@@ -56,7 +56,7 @@
           var self = this;
           this.$refs[formName].validate((valid) => {
             if (valid && this.registerData.password == this.registerData.confirmPassword) {
-              axios.post("users.json", {email: this.registerData.email, password: this.registerData.password}).then((response) => {
+              this.axios.post("users.json", {email: this.registerData.email, password: this.registerData.password}).then((response) => {
                 this.$message({
                   message: "注册成功",
                   type: "success",

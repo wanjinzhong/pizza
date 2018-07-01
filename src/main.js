@@ -5,7 +5,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import {routes} from "./routers"
 import axios from "axios";
-import store from "./store/stores"
+import {store} from "./store/store"
 
 Vue.use(VueRouter);
 Vue.use(ElementUI);
@@ -33,7 +33,6 @@ const router = new VueRouter({
   }
 });
 router.beforeEach(function(to, from, next){
-  // if(store.getters.)
   if (to.path == '/login' || to.path == '/register' || store.getters.getIsLogin) {
     next()
   } else {

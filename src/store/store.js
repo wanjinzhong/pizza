@@ -5,6 +5,6 @@ import user from "./module/user";
 
 Vue.use(vuex);
 
-export default new vuex.Store({
+export const store = new vuex.Store({
     modules: {menu, user}
 })
